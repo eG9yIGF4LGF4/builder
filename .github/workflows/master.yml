@@ -10,6 +10,7 @@ on:
 
 env:
   TAG_NAME: latest
+  RUBYFPV_VERSION: 11.3
 
 jobs:
   buildroot:
