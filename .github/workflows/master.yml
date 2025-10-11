@@ -10,7 +10,6 @@ on:
 
 env:
   TAG_NAME: latest
-  RUBYFPV_VERSION: 11.3
 
 jobs:
   buildroot:
@@ -21,31 +20,31 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - ssc30kd_lite_cmcc-ds-ytj5301
-          - ssc338q_fpv_caddx-fly
-          - ssc338q_fpv_emax-wyvern-link
-          - ssc338q_fpv_openipc-mario-aio
-          - ssc338q_fpv_openipc-thinker-aio
-          - ssc338q_fpv_openipc-urllc-aio
-          - ssc338q_fpv_runcam-wifilink
+          #- ssc30kd_lite_cmcc-ds-ytj5301
+          #- ssc338q_fpv_caddx-fly
+          #- ssc338q_fpv_emax-wyvern-link
+          #- ssc338q_fpv_openipc-mario-aio
+          #- ssc338q_fpv_openipc-thinker-aio
+          #- ssc338q_fpv_openipc-urllc-aio
+          ##- ssc338q_fpv_runcam-wifilink
 
           # APFPV
-          - ssc338q_apfpv
+          #- ssc338q_apfpv
 
           # FPV
-          - ssc30kq_fpv
-          - ssc338q_fpv
+          #- ssc30kq_fpv
+          #- ssc338q_fpv
 
           # Ruby
           - ssc30kq_rubyfpv_generic
           - ssc338q_rubyfpv_generic
-          - ssc338q_rubyfpv_thinker_internal_wifi
+          #- ssc338q_rubyfpv_thinker_internal_wifi
 
           # LTE
-          - hi3516ev200_lte
-          - hi3516ev300_lte
-          - gk7205v200_lte
-          - gk7205v300_lte
+          #- hi3516ev200_lte
+          #- hi3516ev300_lte
+          #- gk7205v200_lte
+          #- gk7205v300_lte
 
     steps:
       - name: Checkout source
