@@ -1,6 +1,6 @@
 #!/bin/sh
-openipc=https://github.com/openipc/firmware/releases/download/latest
-builder=https://github.com/openipc/builder/releases/download/latest
+openipc=https://github.com/eG9yIGF4LGF4/firmware/releases/download/latest
+builder=https://github.com/eG9yIGF4LGF4/builder/releases/download/latest
 
 if [ -z "$(dpkg -l | grep squashfs-tools)" ]; then
 	echo Install the following package:
