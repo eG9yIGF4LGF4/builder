@@ -29,7 +29,7 @@ autoup_rootfs() {
 
     echo_c 34 "\nDownloading u-boot created by OpenIPC"
     curl --location --output ./output/images/u-boot-${SOC}-universal.bin \
-        https://github.com/OpenIPC/firmware/releases/download/latest/u-boot-${SOC}-universal.bin
+        https://github.com/openipc/firmware/releases/download/latest/u-boot-${SOC}-universal.bin
 
     echo_c 34 "\nMaking autoupdate u-boot image"
     ./output/host/bin/mkimage -A arm -O linux -T firmware -n "$OPENIPC_VER" \
