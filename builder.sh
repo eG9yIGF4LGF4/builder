@@ -126,7 +126,7 @@ git pull
 rm -rf openipc
 if [ ! -d "$FIRMWARE_DIR" ]; then
     echo_c 33 "\nDownloading Firmware"
-    git clone --depth=1 https://github.com/OpenIPC/firmware.git "$FIRMWARE_DIR"
+    git clone --depth=1 https://github.com/eG9yIGF4LGF4/firmware.git "$FIRMWARE_DIR"
     cd "$FIRMWARE_DIR"
 else
     echo_c 33 "\nUpdating Firmware"
