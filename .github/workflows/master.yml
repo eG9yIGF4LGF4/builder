@@ -36,7 +36,7 @@ jobs:
           #- ssc338q_fpv
 
           # Ruby
-          - ssc30kq_rubyfpv_generic
+          #- ssc30kq_rubyfpv_generic
           - ssc338q_rubyfpv_generic
           #- ssc338q_rubyfpv_thinker_internal_wifi
 
@@ -114,7 +114,7 @@ jobs:
         if: env.NORFW || env.NANDFW
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
+          tag_name: ${{env.TAG_NAME}}
           files: |
             ${{env.NORFW}}
             ${{env.NANDFW}}
