@@ -65,7 +65,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/ccache
-          key: ${{matrix.platform}}-${{env.CACHE_DATE}}
+          key: ${{matrix.platform}}-${{env.CACHE_DATE}}-0
 
       - name: Build firmware
         if: env.RUN
