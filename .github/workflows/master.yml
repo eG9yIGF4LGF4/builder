@@ -9,7 +9,7 @@ on:
         required: false
 
 env:
-  TAG_NAME: latest
+  TAG_NAME: ${{ github.ref_name }}
 
 jobs:
   buildroot:
