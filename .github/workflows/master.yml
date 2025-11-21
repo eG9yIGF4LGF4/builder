@@ -98,7 +98,7 @@ jobs:
             
   buildlinux:
     name: linux
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
