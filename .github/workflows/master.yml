@@ -35,9 +35,9 @@ jobs:
           echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
           INPUT=${{inputs.platform}}
           MATRIX=$(echo ${{matrix.platform}} | cut -d_ -f1)
-          if [ ${INPUT} = "latest" ] || [ ${INPUT} = ${MATRIX} ]; then
+          #if [ ! -z ${INPUT} ] || [ ${INPUT} = "latest" ] || [ ${INPUT} = ${MATRIX} ]; then
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
-          fi
+          #fi
 
       - name: Setup ccache
         if: env.RUN
@@ -126,9 +126,11 @@ jobs:
         with:
           base_image: raspios_lite_arm64:latest
           commands: |
-            apt-get update -y && \
-            apt-get install autoconf build-essentials cmake make gut curl wget gcc 
+            apt-get update -y
+            apt-get install -y autoconf build-essentials cmake make gut curl wget gcc 
+            echo RUN=${MATRIX} >> ${GITHUB_ENV}
             printenv
+            
     
       - name: Build firmware
         if: env.RUN
