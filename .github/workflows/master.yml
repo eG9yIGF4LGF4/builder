@@ -36,7 +36,7 @@ jobs:
           #- ssc338q_fpv
 
           # Ruby
-          #- ssc30kq_rubyfpv_generic
+          - ssc30kq_rubyfpv_generic
           - ssc338q_rubyfpv_generic
           #- ssc338q_rubyfpv_thinker_internal_wifi
 
