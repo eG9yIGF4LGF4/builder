@@ -35,7 +35,7 @@ jobs:
           echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
           INPUT=${{inputs.platform}}
           MATRIX=$(echo ${{matrix.platform}} | cut -d_ -f1)
-          if [ -z ${INPUT} ] || [ ${INPUT} = ${MATRIX} ]; then
+          if [ ${INPUT} = "latest" ] || [ ${INPUT} = ${MATRIX} ]; then
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
           fi
 
