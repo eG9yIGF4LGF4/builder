@@ -7,9 +7,10 @@ on:
       platform:
         description: Platform
         required: false
-
+        default: latest
+        
 env:
-  TAG_NAME: latest
+  TAG_NAME: ${{inputs.platform}}
 
 jobs:
   buildroot:
