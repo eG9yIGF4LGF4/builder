@@ -112,24 +112,23 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-
-      - name: Prepare firmware
-        run: |
-          echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-          echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
-          INPUT=${{inputs.platform}}
-          MATRIX=$(echo ${{matrix.platform}} | cut -d_ -f1)
-          if [ -z ${INPUT} ] || [ ${INPUT} = ${MATRIX} ]; then
-            echo RUN=${MATRIX} >> ${GITHUB_ENV}
-          fi
-
+        
       - name: Setup ccache
         if: env.RUN
         uses: actions/cache@v4
         with:
           path: /tmp/ccache
           key: ${{matrix.platform}}-${{env.CACHE_DATE}}-1
-
+          
+      - name: Prepare Runner Device
+        uses: pguyot/arm-runner-action@v2
+        with:
+          base_image: raspios_lite_arm64:latest
+          commands: |
+            apt-get update -y && \
+            apt-get install autoconf build-essentials cmake make gut curl wget gcc 
+            printenv
+    
       - name: Build firmware
         if: env.RUN
         run: |
