@@ -13,39 +13,17 @@ env:
 
 jobs:
   buildroot:
-    name: Firmware
+    name: buildroot
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         platform:
-          #- ssc30kd_lite_cmcc-ds-ytj5301
-          #- ssc338q_fpv_caddx-fly
-          #- ssc338q_fpv_emax-wyvern-link
-          #- ssc338q_fpv_openipc-mario-aio
-          #- ssc338q_fpv_openipc-thinker-aio
-          #- ssc338q_fpv_openipc-urllc-aio
-          ##- ssc338q_fpv_runcam-wifilink
-
-          # APFPV
           - ssc338q_apfpv
-
-          # FPV
-          #- ssc30kq_fpv
-          #- ssc338q_fpv
-
-          # Ruby
           - ssc30kq_rubyfpv_generic
           - ssc338q_rubyfpv_generic
-          #- ssc338q_rubyfpv_thinker_internal_wifi
-
-          # LTE
-          #- hi3516ev200_lte
-          #- hi3516ev300_lte
-          #- gk7205v200_lte
-          #- gk7205v300_lte
-
+ 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -109,7 +87,6 @@ jobs:
           if [ -z ${NORFW} ] && [ -z ${NANDFW} ]; then
             exit 1
           fi
-
       - name: Upload firmware
         if: env.NORFW || env.NANDFW
         uses: softprops/action-gh-release@v2
@@ -118,3 +95,67 @@ jobs:
           files: |
             ${{env.NORFW}}
             ${{env.NANDFW}}
+            
+  buildlinux:
+    name: linux
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - pi
+          - radxa
+          - rk3528
+          - rk3588
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Prepare firmware
+        run: |
+          echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+          echo CACHE_DATE=$(date +%m) >> ${GITHUB_ENV}
+          INPUT=${{inputs.platform}}
+          MATRIX=$(echo ${{matrix.platform}} | cut -d_ -f1)
+          if [ -z ${INPUT} ] || [ ${INPUT} = ${MATRIX} ]; then
+            echo RUN=${MATRIX} >> ${GITHUB_ENV}
+          fi
+
+      - name: Setup ccache
+        if: env.RUN
+        uses: actions/cache@v4
+        with:
+          path: /tmp/ccache
+          key: ${{matrix.platform}}-${{env.CACHE_DATE}}-1
+
+      - name: Build firmware
+        if: env.RUN
+        run: |
+          export GIT_HASH=$(git rev-parse --short ${GITHUB_SHA})
+          export GIT_BRANCH=${GITHUB_REF_NAME}
+          echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
+          echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
+
+          mkdir -p /tmp/ccache
+          ln -s /tmp/ccache ${HOME}/.ccache
+
+          NAME=${{matrix.platform}}
+          bash builder.sh ${NAME}
+          cd linux
+
+          TIME=$(date -d @${SECONDS} +%M:%S)
+          echo TIME=${TIME} >> ${GITHUB_ENV}
+          COMMON=$(echo ${NAME} | awk -F_ '{print NF-1}'
+
+      - name: Upload firmware
+        if: env.PI || env.RADXA || env.RK3528 || env.RK3588
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{env.TAG_NAME}}
+          files: |
+            ${{env.PI}}
+            ${{env.RADXA}}
+            ${{env.RK3528}}
+            ${{env.RK3588}}
