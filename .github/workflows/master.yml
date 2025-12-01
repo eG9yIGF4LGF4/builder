@@ -109,7 +109,7 @@ jobs:
           - radxa
           - rk3528
           - rk3588
-
+          
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
