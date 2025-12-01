@@ -127,7 +127,7 @@ jobs:
           base_image: raspios_lite_arm64:latest
           commands: |
             apt-get update -y
-            apt-get install -y autoconf cmake make git curl wget qemu gcc qemu-user-static binfmt-support qemu-system-arm
+            apt-get install -y autoconf cmake make git curl wget gcc qemu-user-static binfmt-support qemu-system-arm
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
             printenv
             
