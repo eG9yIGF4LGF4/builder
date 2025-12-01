@@ -127,7 +127,7 @@ jobs:
           base_image: raspios_lite_arm64:latest
           commands: |
             apt-get update -y
-            apt-get install -y autoconf cmake make git curl wget qemu-user-static binfmt-support
+            apt-get install -y make git curl wget qemu-emulators-full binfmt-support
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
             printenv
             
@@ -137,7 +137,10 @@ jobs:
             echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
 
             NAME=${{matrix.platform}}
+
+            echo "Starting builder.."
             bash builder.sh ${NAME}
+            
             cd linux
 
             TIME=$(date -d @${SECONDS} +%M:%S)
