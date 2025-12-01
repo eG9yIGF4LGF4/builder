@@ -127,29 +127,22 @@ jobs:
           base_image: raspios_lite_arm64:latest
           commands: |
             apt-get update -y
-            apt-get install -y autoconf cmake make git curl wget qemu gcc qemu-user-static binfmt-support
+            apt-get install -y autoconf cmake make git curl wget qemu gcc qemu-user-static binfmt-support qemu-system-arm
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
             printenv
             
-    
-      - name: Build firmware
-        if: env.RUN
-        run: |
-          export GIT_HASH=$(git rev-parse --short ${GITHUB_SHA})
-          export GIT_BRANCH=${GITHUB_REF_NAME}
-          echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
-          echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
+            export GIT_HASH=$(git rev-parse --short ${GITHUB_SHA})
+            export GIT_BRANCH=${GITHUB_REF_NAME}
+            echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
+            echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
 
-          mkdir -p /tmp/ccache
-          ln -s /tmp/ccache ${HOME}/.ccache
+            NAME=${{matrix.platform}}
+            bash builder.sh ${NAME}
+            cd linux
 
-          NAME=${{matrix.platform}}
-          bash builder.sh ${NAME}
-          cd linux
-
-          TIME=$(date -d @${SECONDS} +%M:%S)
-          echo TIME=${TIME} >> ${GITHUB_ENV}
-          COMMON=$(echo ${NAME} | awk -F_ '{print NF-1}'
+            TIME=$(date -d @${SECONDS} +%M:%S)
+            echo TIME=${TIME} >> ${GITHUB_ENV}
+            COMMON=$(echo ${NAME} | awk -F_ '{print NF-1}'
 
       - name: Upload firmware
         if: env.PI || env.RADXA || env.RK3528 || env.RK3588
