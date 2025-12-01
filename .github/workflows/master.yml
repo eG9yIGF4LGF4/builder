@@ -127,7 +127,7 @@ jobs:
           base_image: raspios_lite_arm64:latest
           commands: |
             apt-get update -y
-            apt-get install -y autoconf build-essentials cmake make gut curl wget quemu gcc    q
+            apt-get install -y autoconf build-essentials cmake make gut curl wget quemu gcc qemu-system-arm q
             echo RUN=${MATRIX} >> ${GITHUB_ENV}
             printenv
             
