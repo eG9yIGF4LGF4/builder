@@ -24,6 +24,7 @@ jobs:
           - ssc338q_apfpv
           - ssc30kq_rubyfpv_generic
           - ssc338q_rubyfpv_generic
+          - ssc338q_fpv_emax-wyvern-link
  
     steps:
       - name: Checkout source
