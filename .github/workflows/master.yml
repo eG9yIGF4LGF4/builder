@@ -8,9 +8,14 @@ on:
         description: Platform
         required: false
         default: latest
+      revision:
+        description: RubyFPV revision name
+        required: false
+        default: stable
         
 env:
   TAG_NAME: ${{inputs.platform}}
+  RUBY_REV_NAME: ${{inputs.revision}}
 
 jobs:
   buildroot:
@@ -94,7 +99,7 @@ jobs:
         if: env.NORFW || env.NANDFW
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{env.TAG_NAME}}
+          tag_name: ${{env.RUBY_REV_NAME}}
           files: |
             ${{env.NORFW}}
             ${{env.NANDFW}}
